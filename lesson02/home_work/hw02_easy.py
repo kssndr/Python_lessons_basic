@@ -13,13 +13,37 @@
 
 # Подсказка: воспользоваться методом .format()
 
+fruits = ["яблоко", "банан", "киви", "арбуз"]
+max_len_world = int(len(max(fruits)))
+for n in fruits:
+    print("{}.".format(fruits.index(n)+1), "{:>{width}}".format(n, width = max_len_world))
+
 
 # Задача-2:
 # Даны два произвольные списка.
 # Удалите из первого списка элементы, присутствующие во втором списке.
 
 
+list1 = set("svfdvsfdvsf")
+list2 = set("tprtogtpgvffdver")
+print("список №1:", list1)
+print("список №2:", list2)
+print("общие элементы:", list1 & list2)
+print("список №1 без общих элементов:", list1 - (list1 & list2))
+
 # Задача-3:
 # Дан произвольный список из целых чисел.
 # Получите НОВЫЙ список из элементов исходного, выполнив следующие условия:
 # если элемент кратен двум, то разделить его на 4, если не кратен, то умножить на два.
+
+numbers = [1, 2, 4, 5, 22, 33, 23, 53, 54, 86, 77]
+print("Исходный список:\n", numbers)
+numbers_new = []
+for i in numbers:
+    check = i % 2
+    if check == 0:
+        i = i / 4
+    else:
+        i = i * 2
+    numbers_new.append(i)
+print("Обработанный список:\n", numbers_new)
