@@ -139,11 +139,38 @@ import re
 
 
 number = [random.randint(0, 9) for _ in range(2500)]
+# number = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 1, 1]
 number_str = (list(map(lambda x: str(x), number)))
 line =''.join(number_str)
 print(number)
 print(line)
 
-path = 'data\\' + 'script' + '.txt'
+path = 'data\\' + 'script_hw04_3' + '.txt'
 with open(path, 'w', encoding='UTF-8') as file:
     file.write(str(line))
+
+f0 = max(re.findall(r"[0]*", line))
+f1 = max(re.findall(r"[1]*", line))
+f2 = max(re.findall(r"[2]*", line))
+f3 = max(re.findall(r"[3]*", line))
+f4 = max(re.findall(r"[4]*", line))
+f5 = max(re.findall(r"[5]*", line))
+f6 = max(re.findall(r"[6]*", line))
+f7 = max(re.findall(r"[7]*", line))
+f8 = max(re.findall(r"[8]*", line))
+f9 = max(re.findall(r"[9]*", line))
+
+
+aa = [f0,f1,f2,f3,f4,f5,f6,f7,f8,f9]
+print(aa)
+max_len = len(aa[0])
+a = []
+a = aa[0]
+
+for i in range(10):
+    if len(aa[i]) >= max_len:
+        max_len = len(aa[i])
+        a = aa[i]
+print(" Максимальная последовательность {} - {} повторений подряд".format(a, max_len))
+
+
