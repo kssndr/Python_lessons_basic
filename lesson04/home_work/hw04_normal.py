@@ -85,8 +85,8 @@ line_2 = 'mtMmEZUOmcqWiryMQhhTxqKdSTKCYEJlEZCsGAMkgAYEOmHBSQsSUHKvSfbmxULaysm' \
                                                     'JFaXiUWgsKQrDOeZoNlZNRvHnLgCmysUeKnVJXPFIzvdDyleXylnKBfLCjLHntltignbQ' \
                                                         'oiQzTYwZAiRwycdlHfyHNGmkNqSwXUrxGC'
 
-Up_S = list(map(lambda x: chr(x), list(range(65, 91))))  # Преобразуем список из кодов ANSI в список букв A-Z
-S_S = list(map(lambda x: chr(x), list(range(97, 123))))  # Преобразуем список из кодов ANSI в список букв a-z
+Up_S = list(map(lambda x: chr(x), list(range(65, 91))))
+S_S = list(map(lambda x: chr(x), list(range(97, 123))))
 line_3 = list(line_2)
 
 lst_dr = []
@@ -100,7 +100,7 @@ while i >= 0:
     else:
         lst_dr.append(' ')
     i -= 1
-lst_dr.reverse()  # Переворачиваем список
+lst_dr.reverse()
 
 i = 0
 lst2 = []
@@ -133,11 +133,13 @@ while i < l:
 # Найдите и выведите самую длинную последовательность одинаковых цифр
 # в вышезаполненном файле.
 
+
 import random
 import re
 
 
 number = [random.randint(0, 9) for _ in range(2500)]
+# number = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 1, 1]
 number_str = (list(map(lambda x: str(x), number)))
 line =''.join(number_str)
 print(number)
@@ -147,17 +149,28 @@ path = 'data\\' + 'script_hw04_3' + '.txt'
 with open(path, 'w', encoding='UTF-8') as file:
     file.write(str(line))
 
+f0 = max(re.findall(r"[0]*", line))
+f1 = max(re.findall(r"[1]*", line))
+f2 = max(re.findall(r"[2]*", line))
+f3 = max(re.findall(r"[3]*", line))
+f4 = max(re.findall(r"[4]*", line))
+f5 = max(re.findall(r"[5]*", line))
+f6 = max(re.findall(r"[6]*", line))
+f7 = max(re.findall(r"[7]*", line))
+f8 = max(re.findall(r"[8]*", line))
+f9 = max(re.findall(r"[9]*", line))
+
+
+aa = [f0,f1,f2,f3,f4,f5,f6,f7,f8,f9]
+print(aa)
+max_len = len(aa[0])
 a = []
-for i in range(10):
-    f = max(re.findall(r"[{}]*".format(i), line))
-    a.append(f)
-    print(f, a)
-
-max_len = len(a[0])
+a = aa[0]
 
 for i in range(10):
-    if len(a[i]) >= max_len:
-        max_len = len(a[i])
-        aa = a[i]
-print(" Максимальная последовательность {} - {} повторений подряд".format(aa, max_len))
+    if len(aa[i]) >= max_len:
+        max_len = len(aa[i])
+        a = aa[i]
+print(" Максимальная последовательность {} - {} повторений подряд".format(a, max_len))
+
 
