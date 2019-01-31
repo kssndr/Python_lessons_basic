@@ -16,50 +16,49 @@
 # 4. Узнать ФИО родителей указанного ученика
 # 5. Получить список всех Учителей, преподающих в указанном классе
 
-class people:
-    def __init__(self, surname, name, fathername):
-        self._surname = surname
-        self._name = name
-        self._fathername = fathername
+class People:
+    def __init__(self, last_name, first_name, middle_name):
+        self._last_name = last_name
+        self._first_name = first_name
+        self._middle_name = middle_name
     
     @property
-    def get_name(self):
-        return "{0} {1}. {2}.".format(self._surname, self._name[:1], self._fathername[:1])
+    def get_full_name(self):
+        return '{0} {1} {2}'.format(self._last_name, self._first_name, self._middle_name)
+    
+    @property
+    def get_short_name(self):
+        return '{0} {1}.{2}.'.format(self._last_name, self._first_name[:1], self._middle_name[:1])
 
 
-class student(people):
-    def __init__(self, surname, name, fathername, school, mother, father, class_room):
-        people.__init__(self, surname, name, fathername)
-        self.school = school
-        self._parents = {'father': father, "mother": mother}
+class Student(People):
+    def __init__(self, last_name, first_name, middle_name, class_room, mather, father):
+        People.__init__(self, last_name, first_name, middle_name)
         self._class_room = class_room
+        self._parents = {'mather': mather, 'father': father}
     
     @property
     def get_class_room(self):
         return self._class_room
-    
     
     @property
     def get_parents(self):
         return self._parents
 
 
-class teacher(people):
-    def __init__(self, surname, name, fathername, school, subject, classes):
-        people.__init__(self, surname, name, fathername)
-        self._school = school
-        self._subject = subject
+class Teacher(People):
+    def __init__(self, last_name, first_name, middle_name, subjects, classes):
+        People.__init__(self, last_name, first_name, middle_name)
+        self._subjects = subjects
         self._classes = classes
     
     @property
-    def get_subject(self):
-        return self._subject
+    def get_subjects(self):
+        return self._subjects
     
+    @property
     def get_classes(self):
         return self._classes
-"""
-    School
-    """
 
 class School:
     def __init__(self, school_name, teachers, students):
@@ -72,29 +71,29 @@ class School:
         return list(sorted(classes, key=lambda x: int(x[:-1])))
     
     def get_students(self, class_room):
-        return [student.get_name for student in self._students if
+        return [student.get_short_name for student in self._students if
                 class_room == student.get_class_room]
     
     def get_teachers(self, class_room):
-        return [teacher.get_name for teacher in self._teachers if
+        return [teacher.get_short_name for teacher in self._teachers if
                 class_room in teacher.get_classes]
     
-    def find_student(self, student_name):
+    def find_student(self, student_full_name):
         for person in self._students:
-            if student_name == person.get_name:
-                teachers = [teachers.get_name for teachers in
+            if student_full_name == person.get_full_name:
+                teachers = [teachers.get_short_name for teachers in
                             self._teachers if person.get_class_room in
                             teachers.get_classes]
-                            subject = [teachers.get_subject for teachers in
-                                       self._teachers if person.get_class_room in
-                                       teachers.get_classes]
+                            subjects = [teachers.get_subjects for teachers in
+                                        self._teachers if person.get_class_room in
+                                        teachers.get_classes]
                             parents = person.get_parents
                             
                             return {
-                                'name': student_name,
+                                'full_name': student_full_name,
                                     'class_room': person.get_class_room,
                                         'teachers': teachers,
-                                            'lessons': lessons,
+                                            'subjects': subjects,
                                                 'parents': parents
                                                 }
 
@@ -103,32 +102,44 @@ class School:
         return 'School name ' \
             '"{}"'.format(self._school_name)
 
+@property
+    def adress(self):
+        return '{}'.format(self._school_adress)
 
 
-teachers = [teacher("Petrov", "Ivan", "Ivanich", "1", "Math", ["1A", "2B", "3V"]), teacher("Ivanov", "Vsiliy", "Ivanich", "1", "Physics", ['1A', '2B', '3V'])]
+
+
+
+teachers = [
+            Teacher('Иванов', 'Иван', 'Иваныч', 'Математика',
+                    ['1А', '2А', '1Б']),
+            Teacher('Петров', 'Василий', 'Васильевич', 'Физика',
+                    ['1А', '2А', '1Б'])]
 
 
 students = [
-            student("Ahhh", "Vdddd", "Veee", "1", "Ahh D.V.", "Fddd S. F.", "1A"),
-            student("Ahhh", "Vdddd", "Veee", "1", "Ahh D.V.", "Fddd S. F.", "1B"),
-            student("Ahhh", "Vdddd", "Veee", "1", "Ahh D.V.", "Fddd S. F.", "1A"),
-            student("Ahhh", "Vdddd", "Veee", "1", "Ahh D.V.", "Fddd S. F.", "1B"),
-            student("Ahhh", "Vdddd", "Veee", "1", "Ahh D.V.", "Fddd S. F.", "1A"),
-            student("Ahhh", "Vdddd", "Veee", "1", "Ahh D.V.", "Fddd S. F.", "1C")]
+            Student('Ффф', 'Бббб', 'Вввв', '1А', 'Фффф Ф Ф', 'Бббб Б Б'),
+            Student('Ыыыы', 'Яяя', 'Ййй', '1А', 'ффф Ф Ф', 'Бббб Б Б'),
+            Student('Ввв', 'Ччч', 'Ппп', '1Б', 'Фффф Ф Ф', 'Бббб Б Б'),
+            Student('Аааа', 'Ммм', 'Ввв', '1Б', 'Фффф Ф Ф', 'Бббб Б Б'),
+            Student('Пппп', 'Иии', 'Ппп', '2А', 'Фффф Ф Ф', 'Бббб Б Б'),
+            Student('Оооо', 'Ттт', 'Ццц', '2А', 'Фффф Ф Ф', 'Бббб Б Б')]
 
-school = School("Super", teachers, students)
+school = School('GB', teachers, students)
 
 print(school.name)
 
-print("\nClasses list:")
-print(", ".join(school.get_all_classes()))
 
-print("\nList '1A' class:")
-print("\n".join(school.get_students("1A")))
+print('\nClasses list:')
+print(', '.join(school.get_all_classes()))
 
-student = school.find_student("Ahhh V. V.")
-print("\nStudent: {0}\nClass: {1}\n Teacher: {2}\nSubject: {3}".format(student["name"], student["class_room"], ", ".join(student["teachers"]), ", ".join(student["lessons"])))
+print('\nList "1А" class:')
+print('\n'.join(school.get_students('1J')))
 
-print("Parents: {0}, {1}".format(student["parents"]["mather"], student["parents"]["father"]))
+student = school.find_student('Ффф Бббб Вввв')
+print('\nStudent: {0}\nClass: "{1}"\n''Teacher: {2}\nSubject: {3}'.format(student['full_name'],
+                                                                          student['class_room'], ', '.join(student['teachers']), ', '.join(student['subjects'])))
 
-print("\nClass: '1A'\nTeacher: ""{0}".format(", ".join(school.get_teachers("p1"))))
+print('Parents: {0}, {1}'.format(student['parents']['mather'], student['parents']['father']))
+
+print('\nClass: "2A"\nTeacher: ''{0}'.format(', '.join(school.get_teachers('2А'))))
